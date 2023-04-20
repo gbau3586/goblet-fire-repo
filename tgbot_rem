@@ -40,3 +40,16 @@ def send_reminder(context):
     chat_id, reminder_text = context.job.context
     bot = context.bot
     bot.send_message(chat_id=chat_id, text=reminder_text)
+
+def main():
+    # Create an updater using the bot token
+    updater = Updater('TOKEN', use_context=True)
+    dp = updater.dispatcher
+    
+    # Add command and message handlers
+    dp.add_handler(CommandHandler('setreminder', set_reminder, pass_args=True, pass_job_queue=True, pass_chat_data=True))
+    dp.add_handler(CommandHandler('cancelreminder', cancel_reminder, pass_chat_data=True))
+    
+    # Start the bot
+    updater.start_polling()
+    updater
